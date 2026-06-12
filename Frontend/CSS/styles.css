@@ -186,7 +186,7 @@
 
 .main-inner-container {
     width: 1521px;
-    height: 686.40px;
+    min-height: 686.40px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -286,8 +286,15 @@
     outline: 1.60px #7B1FA2 solid;
 }
 
+.destination-card.active .dest-title,
+.destination-card.active .dest-meta-text,
+.destination-card.active .dest-emoji,
 .destination-card.active div[style*="color: #1A2332"] {
     color: white !important;
+}
+
+.destination-card.active path {
+    stroke: white !important;
 }
 
 

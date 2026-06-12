@@ -46,23 +46,13 @@
                                         <div style="width: 144.40px; height: 114px; left: 273.60px; top: 228px; position: absolute; opacity: 0.80; outline: 9.12px #FFF9C4 solid; outline-offset: -4.56px"></div>
                                         <div style="width: 121.60px; height: 205.20px; left: 182.40px; top: 342px; position: absolute; opacity: 0.80; outline: 9.12px #FFF9C4 solid; outline-offset: -4.56px"></div>
                                         <div style="width: 42.56px; height: 42.56px; left: 267.52px; top: 320.72px; position: absolute; background: #1E88E5; outline: 6.08px white solid; outline-offset: -3.04px"></div>
-                                        <div style="left: 319.20px; top: 330.60px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Vigan Heritage</div>
                                         <div style="width: 42.56px; height: 42.56px; left: 259.92px; top: 313.12px; position: absolute; background: #1E88E5; outline: 6.08px white solid; outline-offset: -3.04px"></div>
-                                        <div style="left: 311.60px; top: 323px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Calle Crisologo</div>
-                                        <div style="left: 304px; top: 307.80px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Bantay Bell</div>
                                         <div style="width: 42.56px; height: 42.56px; left: 282.72px; top: 343.52px; position: absolute; background: #FF8F00; outline: 6.08px white solid; outline-offset: -3.04px"></div>
-                                        <div style="left: 334.40px; top: 353.40px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Baluarte Zoo</div>
                                         <div style="width: 42.56px; height: 42.56px; left: 275.12px; top: 358.72px; position: absolute; background: #43A047; outline: 6.08px white solid; outline-offset: -3.04px"></div>
-                                        <div style="left: 326.80px; top: 368.60px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Hidden Garden</div>
                                         <div style="width: 42.56px; height: 42.56px; left: 191.52px; top: 449.92px; position: absolute; background: #00ACC1; outline: 6.08px white solid; outline-offset: -3.04px"></div>
-                                        <div style="left: 243.20px; top: 459.80px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Santiago Cove</div>
                                         <div style="width: 42.56px; height: 42.56px; left: 396.72px; top: 244.72px; position: absolute; background: #43A047; outline: 6.08px white solid; outline-offset: -3.04px"></div>
-                                        <div style="left: 448.40px; top: 254.60px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Pinsal Falls</div>
                                         <div style="width: 42.56px; height: 42.56px; left: 221.92px; top: 495.52px; position: absolute; background: #7B1FA2; outline: 6.08px white solid; outline-offset: -3.04px"></div>
-                                        <div style="left: 273.60px; top: 505.40px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Sta. Maria</div>
                                         <div style="width: 42.56px; height: 42.56px; left: 161.12px; top: 525.92px; position: absolute; background: #00ACC1; outline: 6.08px white solid; outline-offset: -3.04px"></div>
-                                        <div style="left: 212.80px; top: 535.80px; position: absolute; color: #1A2332; font-size: 19px; font-family: Poppins; font-weight: 700; word-wrap: break-word">Mindoro Beach</div>
-                                        
                                         <div style="width: 266px; height: 136.80px; left: 15.20px; top: 760px; position: absolute; opacity: 0.90; background: white"></div>
                                         <div style="left: 30.40px; top: 773.68px; position: absolute; color: #6B7280; font-size: 16.72px; font-family: Inter; font-weight: 400; word-wrap: break-word">LEGEND</div>
                                         <div style="width: 18.24px; height: 18.24px; left: 36.48px; top: 804.08px; position: absolute; background: #1E88E5"></div>
@@ -82,7 +72,11 @@
                                         <div style="left: 24.57px; top: 413.57px; position: absolute; transform: rotate(-45deg); transform-origin: top left; color: #4FC3F7; font-size: 19px; font-family: Inter; font-weight: 400; word-wrap: break-word">South China Sea</div>
                                         
                                         <!-- Animated Vehicle -->
-                                        <div id="tour-vehicle" style="width: 70px; height: 70px; left: 247px; top: 272.60px; position: absolute; z-index: 50;">
+                                        <div id="map-popup" style="position: absolute; padding: 12px 16px; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); opacity: 0; transition: opacity 0.3s, left 1.5s cubic-bezier(0.4, 0, 0.2, 1), top 1.5s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; z-index: 10; display: flex; align-items: center; gap: 8px;">
+    <div style="width: 8px; height: 8px; background: #FF8F00; border-radius: 50%;"></div>
+    <div id="map-popup-text" style="color: #1A2332; font-size: 14px; font-family: Poppins; font-weight: 700;">Location</div>
+</div>
+<div id="tour-vehicle" style="width: 70px; height: 70px; left: 247px; top: 272.60px; position: absolute; z-index: 50;">
                                             <img id="vehicle-img" src="../Assets/Tricycle_mode.png" alt="Vehicle" style="width: 100%; height: 100%; object-fit: contain;">
                                         </div>
                                     </div>
@@ -1763,7 +1757,7 @@
                         <div style="align-self: stretch; padding-top: 24px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
                             <div style="align-self: stretch; height: 432px; position: relative; background: white; box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; border-radius: 24px">
                                 <div style="width: 576px; height: 432px; left: 0px; top: 0px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                                    <img style="align-self: stretch; height: 432px; position: relative" src="https://placehold.co/576x432" />
+                                    <img style="align-self: stretch; height: 432px; position: relative" src="../Assets/vigan-heritage-village.png" style="object-fit: cover;" />
                                     <div style="width: 576px; height: 432px; left: 0px; top: 0px; position: absolute; background: linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0) 60%)"></div>
                                     <div style="width: 32px; height: 32px; left: 532px; top: 12px; position: absolute; background: rgba(255, 255, 255, 0.20); border-radius: 26843500px; justify-content: center; align-items: center; display: inline-flex">
                                         <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
@@ -2703,7 +2697,7 @@
                                 <div style="width: 198.40px; height: 147.99px; left: 206.40px; top: 0px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                                     <div style="padding-bottom: 12px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
                                         <div style="width: 80px; height: 80px; position: relative; background: linear-gradient(135deg, #FFD700 0%, #FF8F00 100%); border-radius: 26843500px; outline: 2.40px #FFD700 solid; outline-offset: -2.40px; justify-content: center; align-items: center; display: inline-flex">
-                                            <img style="width: 75.20px; height: 75.20px; position: relative; border-radius: 26843500px" src="https://placehold.co/75x75" />
+                                            <img style="width: 75.20px; height: 75.20px; position: relative; border-radius: 26843500px; object-fit: cover;" src="../Assets/bantay -church.jpg" />
                                             <div style="width: 24px; height: 24px; left: 57.60px; top: -1.60px; position: absolute; background: #1A2332; border-radius: 26843500px; justify-content: center; align-items: center; display: flex">
                                                 <div style="color: white; font-size: 12px; font-family: Poppins; font-weight: 700; line-height: 16px; word-wrap: break-word">2</div>
                                             </div>
@@ -2724,15 +2718,9 @@
                                 <div style="width: 198.40px; height: 147.99px; left: 412.80px; top: 0px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                                     <div style="padding-bottom: 12px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
                                         <div style="width: 80px; height: 80px; position: relative; background: rgba(255, 255, 255, 0.10); border-radius: 26843500px; outline: 2.40px rgba(255, 255, 255, 0.30) solid; outline-offset: -2.40px; justify-content: center; align-items: center; display: inline-flex">
-                                            <img style="width: 75.20px; height: 75.20px; position: relative; opacity: 0.40; border-radius: 26843500px" src="https://placehold.co/75x75" />
+                                            <img style="width: 75.20px; height: 75.20px; position: relative; opacity: 0.40; border-radius: 26843500px" src="../Assets/Baluarte-Zoo.jpg" style="object-fit: cover;" />
                                             <div style="width: 24px; height: 24px; left: 57.60px; top: -1.60px; position: absolute; background: rgba(255, 255, 255, 0.30); border-radius: 26843500px; justify-content: center; align-items: center; display: flex">
-                                                <div style="color: white; font-size: 12px; font-family: Poppins; font-weight: 700; line-height: 16px; word-wrap: break-word">3</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style="width: 82.40px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
-                                        <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
-                                            <div style="text-align: center; color: #FFD700; font-size: 12px; font-family: Poppins; font-weight: 600; line-height: 16px; word-wrap: break-word">11:00 AM</div>
+                                                <div style="color: white; font-size: 12px; font-family: Poppins; font-weight: 700; line-height: 16px; word-wrap: break-word">3</div></div></div></div><div style="width: 82.40px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex"><div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: center; display: flex"><div style="text-align: center; color: #FFD700; font-size: 12px; font-family: Poppins; font-weight: 600; line-height: 16px; word-wrap: break-word">11:00 AM</div>
                                         </div>
                                         <div style="width: 82.40px; height: 24px; padding-top: 4px; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
                                             <div style="text-align: center; color: rgba(255, 255, 255, 0.60); font-size: 12.80px; font-family: Poppins; font-weight: 600; line-height: 19.20px; word-wrap: break-word">Baluarte Zoo</div>
@@ -2745,7 +2733,7 @@
                                 <div style="width: 198.40px; height: 147.99px; left: 619.20px; top: 0px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                                     <div style="padding-bottom: 12px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
                                         <div style="width: 80px; height: 80px; position: relative; background: rgba(255, 255, 255, 0.10); border-radius: 26843500px; outline: 2.40px rgba(255, 255, 255, 0.30) solid; outline-offset: -2.40px; justify-content: center; align-items: center; display: inline-flex">
-                                            <img style="width: 75.20px; height: 75.20px; position: relative; opacity: 0.40; border-radius: 26843500px" src="https://placehold.co/75x75" />
+                                            <img style="width: 75.20px; height: 75.20px; position: relative; opacity: 0.40; border-radius: 26843500px" src="../Assets/Baluarte-Zoo.jpg" style="object-fit: cover;" />
                                             <div style="width: 24px; height: 24px; left: 57.60px; top: -1.60px; position: absolute; background: rgba(255, 255, 255, 0.30); border-radius: 26843500px; justify-content: center; align-items: center; display: flex">
                                                 <div style="color: white; font-size: 12px; font-family: Poppins; font-weight: 700; line-height: 16px; word-wrap: break-word">4</div>
                                             </div>
@@ -2766,7 +2754,7 @@
                                 <div style="width: 198.40px; height: 147.99px; left: 825.60px; top: 0px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                                     <div style="padding-bottom: 12px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
                                         <div style="width: 80px; height: 80px; position: relative; background: rgba(255, 255, 255, 0.10); border-radius: 26843500px; outline: 2.40px rgba(255, 255, 255, 0.30) solid; outline-offset: -2.40px; justify-content: center; align-items: center; display: inline-flex">
-                                            <img style="width: 75.20px; height: 75.20px; position: relative; opacity: 0.40; border-radius: 26843500px" src="https://placehold.co/75x75" />
+                                            <img style="width: 75.20px; height: 75.20px; position: relative; opacity: 0.40; border-radius: 26843500px" src="../Assets/Baluarte-Zoo.jpg" style="object-fit: cover;" />
                                             <div style="width: 24px; height: 24px; left: 57.60px; top: -1.60px; position: absolute; background: rgba(255, 255, 255, 0.30); border-radius: 26843500px; justify-content: center; align-items: center; display: flex">
                                                 <div style="color: white; font-size: 12px; font-family: Poppins; font-weight: 700; line-height: 16px; word-wrap: break-word">5</div>
                                             </div>
@@ -2845,7 +2833,7 @@
                                     </div>
                                 </div>
                                 <div style="width: 475.20px; height: 356.40px; left: 524px; top: 24.80px; position: absolute; overflow: hidden; border-radius: 16px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                                    <img style="align-self: stretch; height: 356.40px; position: relative" src="https://placehold.co/475x356" />
+                                    <img style="align-self: stretch; height: 356.40px; position: relative" src="../Assets/bantay -church.jpg" style="object-fit: cover;" />
                                 </div>
                             </div>
                         </div>
@@ -2871,31 +2859,20 @@
                                     <div style="left: 19px; top: 4px; position: absolute; text-align: center; color: #FF8F00; font-size: 14px; font-family: Poppins; font-weight: 600; line-height: 20px; word-wrap: break-word">📸 PHOTO GALLERY</div>
                                 </div>
                             </div>
-                            <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
-                                <div style="text-align: center; color: #1A2332; font-size: 48px; font-family: Playfair Display; font-weight: 700; line-height: 72px; word-wrap: break-word">Ilocos Sur in Pictures</div>
-                            </div>
-                        </div>
-                        <div style="align-self: stretch; padding-top: 40px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
-                            <div style="align-self: stretch; height: 576px; position: relative">
-                                <div style="width: 376px; height: 211.50px; left: 0px; top: 0px; position: absolute; overflow: hidden; border-radius: 16px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                                    <div style="align-self: stretch; height: 212px; position: relative"></div>
-                                </div>
-                                <div style="width: 376px; height: 282px; left: 388px; top: 0px; position: absolute; overflow: hidden; border-radius: 16px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                                    <img style="align-self: stretch; height: 282px; position: relative" src="https://placehold.co/376x282" />
-                                </div>
-                                <div style="width: 376px; height: 282px; left: 776px; top: 0px; position: absolute; overflow: hidden; border-radius: 16px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                                    <img style="align-self: stretch; height: 282px; position: relative" src="https://placehold.co/376x282" />
-                                </div>
-                                <div style="width: 376px; height: 282px; left: 0px; top: 294px; position: absolute; overflow: hidden; border-radius: 16px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                                    <img style="align-self: stretch; height: 282px; position: relative" src="https://placehold.co/376x282" />
-                                </div>
-                                <div style="width: 376px; height: 282px; left: 388px; top: 294px; position: absolute; overflow: hidden; border-radius: 16px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                                    <img style="align-self: stretch; height: 282px; position: relative" src="https://placehold.co/376x282" />
-                                </div>
-                                <div style="width: 376px; height: 211.50px; left: 776px; top: 294px; position: absolute; overflow: hidden; border-radius: 16px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-                                    <img style="align-self: stretch; height: 212px; position: relative" src="https://placehold.co/376x212" />
-                                </div>
-                            </div>
+                              <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
+                                  <div style="text-align: center; color: #1A2332; font-size: 48px; font-family: Playfair Display; font-weight: 700; line-height: 72px; word-wrap: break-word">Ilocos Sur in Pictures</div>
+                              </div>
+                          </div>
+                          <div style="align-self: stretch; padding-top: 40px; display: flex; justify-content: center;">
+                              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%;">
+                                  <img style="width: 100%; height: 282px; object-fit: cover; border-radius: 16px;" src="../Assets/vigan-heritage-village.png" alt="Vigan Heritage Village" />
+                                  <img style="width: 100%; height: 282px; object-fit: cover; border-radius: 16px;" src="../Assets/bantay -church.jpg" alt="Bantay Bell Tower" />
+                                  <img style="width: 100%; height: 282px; object-fit: cover; border-radius: 16px;" src="../Assets/Hidden-Garden-Restaurant-Vigan.jpg" alt="Hidden Garden" />
+                                  <img style="width: 100%; height: 282px; object-fit: cover; border-radius: 16px;" src="../Assets/santiago-cove.jpg" alt="Santiago Cove" />
+                                  <img style="width: 100%; height: 282px; object-fit: cover; border-radius: 16px;" src="../Assets/sta-maria-church.jpg" alt="Sta. Maria Church" />
+                                  <img style="width: 100%; height: 282px; object-fit: cover; border-radius: 16px;" src="../Assets/pinsal-falls.jpg" alt="Pinsal Falls" />
+                              </div>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -3284,11 +3261,21 @@
                     // Set current as active
                     card.classList.add('active');
                     
-                    const vehicle = document.getElementById('tour-vehicle');
+                                        const vehicle = document.getElementById('tour-vehicle');
+                    const popup = document.getElementById('map-popup');
+                    const popupText = document.getElementById('map-popup-text');
+                    
                     if (vehicle) {
                         const coords = destMap[text];
                         vehicle.style.left = coords.x + 'px';
                         vehicle.style.top = (coords.y - 20) + 'px'; // offset slightly
+                        
+                        if (popup && popupText) {
+                            popupText.textContent = text;
+                            popup.style.left = (coords.x + 60) + 'px';
+                            popup.style.top = (coords.y - 10) + 'px';
+                            popup.style.opacity = '1';
+                        }
                     }
                 };
             }
