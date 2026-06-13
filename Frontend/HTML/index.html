@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="../CSS/styles.css">
 </head>
 <body>
-   <div id="loading-screen" style="position: fixed; inset: 0; background: #F9F4EC; z-index: 99999; display: none; opacity: 0; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s;">
-        <div style="font-family: 'Playfair Display', serif; font-size: 32px; color: #1E88E5; margin-bottom: 24px;">🏛️ Ilocos Sur</div>
-        <div style="font-family: 'Poppins', sans-serif; font-size: 16px; color: #6B7280; animation: pulse-ring 1.5s infinite;">Preparing your journey...</div>
+   <div id="loading-screen" style="position: fixed; inset: 0; background: #e0f2fe; z-index: 99999; display: none; opacity: 0; transition: opacity 0.8s; overflow: hidden;">
+        <img src="../Assets/ILOCOS SUR FRONT.png" style="position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 1;" alt="Ilocos Sur Background">
+        <img id="kalesa-anim" src="../Assets/KalesaforAnimation.png" style="position: absolute; bottom: 12%; left: -300px; height: 50%; width: auto; z-index: 2; object-fit: contain;" alt="Kalesa">
     </div>
 
     <nav id="navbar" class="navbar">
@@ -24,28 +24,18 @@
                 <div class="nav-link" data-target=".map-section">Interactive Map</div>
                 <div class="nav-link" data-target=".tour-route-section">Tour Route</div>
                 <div class="nav-link" data-target=".footer">About</div>
-                <button id="plan-trip-btn" class="btn-primary" style="padding: 10px 20px; font-size: 14px;">Plan a Trip</button>
+                <button id="plan-trip-btn" class="btn-primary" style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); padding: 10px 20px; font-size: 14px; box-shadow: 0 0 15px rgba(255, 143, 0, 0.6), 0 4px 6px rgba(255, 143, 0, 0.3);">Plan a Trip</button>
             </div>
         </div>
     </nav>
 
-    <header class="hero-wrapper">
+    <header class="hero-wrapper" style="background-image: url('../Assets/bantay%20-church.jpg'); background-size: cover; background-position: center;">
         <div class="hero-bg-gradient"></div>
         <div class="hero-content">
             <div class="badge badge-accent">🇵🇭 ILOCOS SUR, PHILIPPINES</div>
             <h1 class="hero-title">Discover the Beauty<br/>of Ilocos Sur</h1>
             <p class="hero-desc">Explore heritage sites, beaches, churches, and hidden gems of the Ilocandia.</p>
             
-            <div class="search-bar-container">
-                <div class="search-input-wrapper">
-                    <span>🔍</span>
-                    <input type="text" placeholder="Search destinations, landmarks...">
-                </div>
-                <div class="search-btn" data-target=".grid-section">
-                    <span style="color: white; font-size: 20px;">➔</span>
-                </div>
-            </div>
-
             <button id="start-exploring-btn" class="btn-primary" data-target=".grid-section">Start Exploring ✦</button>
 
             <div class="hero-stats">
@@ -264,21 +254,21 @@
                         </div>
                     </div>
 
-                    <div class="map-canvas">
-                        <div class="map-shape map-bg"></div>
-                        <div class="map-shape map-landmass" style="width: 402px; height: 684px; left: 114px; top: 38px;"></div>
+                    <div class="map-canvas" style="position: relative; background: #E8F4F8;">
+                        <img src="../Assets/Ilocos%20Sur_MAP.png" style="width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0;" alt="Ilocos Sur Interactive Map">
                         
-                        <div class="map-shape map-marker-point" style="background: #1E88E5; width: 42px; height: 42px; left: 267.52px; top: 320.72px;"></div>
-                        <div class="map-shape map-marker-point" style="background: #1E88E5; width: 42px; height: 42px; left: 259.92px; top: 313.12px;"></div>
-                        <div class="map-shape map-marker-point" style="background: #7B1FA2; width: 42px; height: 42px; left: 247px; top: 292.60px;"></div>
-                        <div class="map-shape map-marker-point" style="background: #FF8F00; width: 42px; height: 42px; left: 282.72px; top: 343.52px;"></div>
-                        <div class="map-shape map-marker-point" style="background: #43A047; width: 42px; height: 42px; left: 275.12px; top: 358.72px;"></div>
-                        <div class="map-shape map-marker-point" style="background: #00ACC1; width: 42px; height: 42px; left: 191.52px; top: 449.92px;"></div>
-                        <div class="map-shape map-marker-point" style="background: #43A047; width: 42px; height: 42px; left: 396.72px; top: 244.72px;"></div>
-                        <div class="map-shape map-marker-point" style="background: #7B1FA2; width: 42px; height: 42px; left: 161.12px; top: 525.92px;"></div>
-                        <div class="map-shape map-marker-point" style="background: #00ACC1; width: 42px; height: 42px; left: 221.92px; top: 495.52px;"></div>
+                        <!-- Map Markers -->
+                        <div class="map-shape map-marker-point" style="background: #1E88E5; width: 24px; height: 24px; left: 43%; top: 30%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
+                        <div class="map-shape map-marker-point" style="background: #1E88E5; width: 24px; height: 24px; left: 43.5%; top: 31%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
+                        <div class="map-shape map-marker-point" style="background: #7B1FA2; width: 24px; height: 24px; left: 45%; top: 29%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
+                        <div class="map-shape map-marker-point" style="background: #FF8F00; width: 24px; height: 24px; left: 44%; top: 33%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
+                        <div class="map-shape map-marker-point" style="background: #43A047; width: 24px; height: 24px; left: 42%; top: 32%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
+                        <div class="map-shape map-marker-point" style="background: #00ACC1; width: 24px; height: 24px; left: 44%; top: 62%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
+                        <div class="map-shape map-marker-point" style="background: #43A047; width: 24px; height: 24px; left: 49%; top: 49%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
+                        <div class="map-shape map-marker-point" style="background: #7B1FA2; width: 24px; height: 24px; left: 46%; top: 50%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
+                        <div class="map-shape map-marker-point" style="background: #00ACC1; width: 24px; height: 24px; left: 40%; top: 30%; transform: translate(-50%, -50%); border: 3px solid white; border-radius: 50%;"></div>
 
-                        <div id="tour-vehicle" class="map-shape" style="width: 70px; height: 70px; left: 267.52px; top: 300px; z-index: 50; transition: all 1.5s ease;">
+                        <div id="tour-vehicle" class="map-shape" style="width: 70px; height: 70px; left: 43%; top: 30%; transform: translate(-50%, -50%); z-index: 50; transition: all 1.5s ease;">
                             <div id="vehicle-pulse" class="vehicle-pulse"></div>
                             <img id="vehicle-img" src="../Assets/Tricycle_mode.png" onerror="this.src='https://placehold.co/70x70'" alt="Vehicle" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
@@ -546,21 +536,24 @@
         if (planTripBtn) {
             planTripBtn.addEventListener('click', function() {
                 const loader = document.getElementById('loading-screen');
+                const kalesa = document.getElementById('kalesa-anim');
+                
                 // Show the loader
-                loader.style.display = 'flex';
+                loader.style.display = 'block';
                 // Trigger reflow to ensure transition happens
                 void loader.offsetWidth; 
                 loader.style.opacity = '1';
 
-                // Wait for the animation simulation to finish
+                // Reset and start kalesa animation
+                if (kalesa) {
+                    kalesa.classList.remove('kalesa-moving');
+                    void kalesa.offsetWidth; // trigger reflow
+                    kalesa.classList.add('kalesa-moving');
+                }
+
+                // Wait for the animation to finish and jump straight to the form
                 setTimeout(() => {
-                    loader.style.opacity = '0';
-                    setTimeout(() => {
-                        loader.style.display = 'none';
-                        // Smooth scroll to the map
-                        const mapSection = document.querySelector('.map-section');
-                        if (mapSection) mapSection.scrollIntoView({ behavior: 'smooth' });
-                    }, 800); // Wait for fade out
+                    window.location.href = 'registration.html';
                 }, 2500); // 2.5 second loading duration
             });
         }
@@ -649,15 +642,15 @@
         };
 
         const destMapCoords = {
-            'Vigan Heritage Village': {x: 267.52, y: 320.72},
-            'Calle Crisologo': {x: 259.92, y: 313.12},
-            'Bantay Bell Tower': {x: 247, y: 292.60},
-            'Baluarte Zoo': {x: 282.72, y: 343.52},
-            'Hidden Garden': {x: 275.12, y: 358.72},
-            'Santiago Cove': {x: 191.52, y: 449.92},
-            'Pinsal Falls': {x: 396.72, y: 244.72},
-            'Sta. Maria Church': {x: 161.12, y: 525.92},
-            'Sta Catalina Beach': {x: 221.92, y: 495.52}
+            'Vigan Heritage Village': {x: '43%', y: '30%'},
+            'Calle Crisologo': {x: '43.5%', y: '31%'},
+            'Bantay Bell Tower': {x: '45%', y: '29%'},
+            'Baluarte Zoo': {x: '44%', y: '33%'},
+            'Hidden Garden': {x: '42%', y: '32%'},
+            'Santiago Cove': {x: '44%', y: '62%'},
+            'Pinsal Falls': {x: '49%', y: '49%'},
+            'Sta. Maria Church': {x: '46%', y: '50%'},
+            'Sta Catalina Beach': {x: '40%', y: '30%'}
         };
 
         // 5. Grid Card to Map Interaction
@@ -698,8 +691,8 @@
                 
                 if (vehicle && destMapCoords[title]) {
                     const coords = destMapCoords[title];
-                    vehicle.style.left = coords.x + 'px';
-                    vehicle.style.top = (coords.y - 20) + 'px';
+                    vehicle.style.left = coords.x;
+                    vehicle.style.top = coords.y;
                     
                     setTimeout(() => {
                         updateMapDetailCard(title);

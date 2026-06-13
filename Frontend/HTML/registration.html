@@ -3,9 +3,1366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ilocos Sur - Registration</title>
+    <title>Ilocos Sur Trip Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/styles.css">
+    <style>
+        body {
+            background: url('../Assets/vigan-heritage-village.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Dark overlay for background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 0;
+        }
+
+        .modal-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 900px;
+            background: #FDFBF7;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+
+        /* Header Area */
+        .modal-header {
+            background: #253245; /* Dark blue */
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .modal-header-bg-circle {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 18px;
+            z-index: 5;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .header-tag {
+            color: #FF8F00;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .header-title {
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin: 0 0 8px 0;
+        }
+
+        .header-subtitle {
+            color: #A0AABF;
+            font-size: 14px;
+            margin: 0 0 30px 0;
+        }
+
+        /* Progress Bar */
+        .progress-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .progress-line-bg {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            z-index: 1;
+        }
+
+        .progress-line-fill {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            height: 2px;
+            background: #4CAF50;
+            z-index: 2;
+            transition: width 0.3s ease;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 3;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #4A5568;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .step-label {
+            color: #A0AABF;
+            font-size: 11px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .progress-step.active .step-circle {
+            background: #FF8F00;
+        }
+
+        .progress-step.active .step-label {
+            color: #FF8F00;
+        }
+
+        .progress-step.completed .step-circle {
+            background: #4CAF50;
+            color: white;
+        }
+
+        /* Body Area */
+        .modal-body {
+            padding: 40px;
+            overflow-y: auto;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-heading {
+            color: #1A2332;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+
+        .section-subheading {
+            color: #6B7280;
+            font-size: 14px;
+            margin: 0 0 30px 0;
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background: white;
+            border: 2px solid #F3F4F6;
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .option-card:hover {
+            border-color: #FFD599;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 143, 0, 0.1);
+        }
+
+        .option-card.selected {
+            border-color: #FF8F00;
+            background: #FFFBF5;
+        }
+
+        .option-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .option-title {
+            color: #1A2332;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .option-desc {
+            color: #9CA3AF;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* Step 1 Specifics */
+        .group-size-control {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .group-size-label {
+            font-weight: 700;
+            color: #1A2332;
+            font-size: 16px;
+        }
+
+        .btn-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-minus {
+            background: #F3F4F6;
+            color: #4B5563;
+        }
+
+        .btn-minus:hover {
+            background: #E5E7EB;
+        }
+
+        .btn-plus {
+            background: #FF8F00;
+            color: white;
+        }
+
+        .btn-plus:hover {
+            background: #E68100;
+        }
+
+        .group-size-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FF8F00;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Step 2 Specifics */
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #F3F4F6;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            color: #1A2332;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 30px;
+        }
+
+        .input-field:focus {
+            border-color: #FF8F00;
+        }
+
+        .duration-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .duration-card {
+            background: white;
+            border: 2px solid #F3F4F6;
+            border-radius: 12px;
+            padding: 16px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .duration-card.selected {
+            border-color: #FF8F00;
+            background: #FFFBF5;
+        }
+
+        .duration-num {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1A2332;
+        }
+
+        .duration-card.selected .duration-num {
+            color: #FF8F00;
+        }
+
+        .duration-text {
+            font-size: 11px;
+            color: #9CA3AF;
+        }
+
+        .info-box {
+            background: #F0F9FF;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .info-box-icon {
+            color: #0EA5E9;
+            font-size: 20px;
+        }
+
+        .info-box-content h4 {
+            color: #0369A1;
+            margin: 0 0 4px 0;
+            font-size: 14px;
+        }
+
+        .info-box-content p {
+            color: #0284C7;
+            margin: 0;
+            font-size: 12px;
+        }
+
+        /* Step 3: Destinations */
+        .dest-card {
+            position: relative;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            height: 160px;
+        }
+
+        .dest-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .dest-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .dest-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .dest-card.selected {
+            border-color: #FF8F00;
+        }
+
+        .dest-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: #FF8F00;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .dest-card-title {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            color: white;
+            z-index: 5;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Budget Card Variations */
+        .budget-card {
+            text-align: left;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .budget-card .option-icon {
+            font-size: 24px;
+            margin-bottom: 0;
+            margin-right: 16px;
+        }
+
+        .budget-card-inner {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .budget-check {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #FF8F00;
+            display: none;
+            font-size: 20px;
+        }
+
+        .budget-card.selected .budget-check {
+            display: block;
+        }
+
+        .budget-card.selected .option-title {
+            color: #1A2332;
+        }
+
+        .budget-card .option-title {
+            margin-bottom: 4px;
+        }
+        
+        .budget-card .budget-amount {
+            color: #FF8F00;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        /* Step 5: Itinerary */
+        .itinerary-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .itinerary-pill {
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .itinerary-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .itinerary-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .itinerary-action-btn {
+            background: #F3F4F6;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4B5563;
+            cursor: pointer;
+        }
+
+        .day-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .day-pill {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #F3F4F6;
+            color: #6B7280;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .day-pill.active {
+            background: #1A2332;
+            color: white;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 30px;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -19px;
+            top: 30px;
+            bottom: 0;
+            width: 2px;
+            background: #E5E7EB;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -32px;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            z-index: 2;
+            border: 4px solid #FDFBF7;
+        }
+
+        .timeline-icon.orange { background: #FF8F00; }
+        .timeline-icon.blue { background: #1E88E5; }
+        .timeline-icon.green { background: #4CAF50; }
+
+        .timeline-content {
+            background: white;
+            border: 1px solid #F3F4F6;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .timeline-title {
+            font-weight: 700;
+            color: #1A2332;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .timeline-time {
+            background: #F3F4F6;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6B7280;
+        }
+
+        .timeline-location {
+            color: #FF8F00;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .timeline-tip {
+            color: #6B7280;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+
+        /* Footer */
+        .modal-footer {
+            padding: 20px 40px;
+            background: white;
+            border-top: 1px solid #F3F4F6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 20px 20px;
+            flex-shrink: 0;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-back {
+            background: transparent;
+            border: none;
+            color: #9CA3AF;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+        }
+
+        .btn-back:hover {
+            color: #4B5563;
+        }
+
+        .step-indicator {
+            color: #9CA3AF;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .btn-action {
+            background: #FF8F00;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-action:hover {
+            background: #E68100;
+        }
+
+        .btn-action.green {
+            background: #2E7D32;
+        }
+
+        .btn-action.green:hover {
+            background: #1B5E20;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #4B5563;
+            border: 1px solid #D1D5DB;
+        }
+        
+        .btn-outline:hover {
+            background: #F3F4F6;
+        }
+        
+    </style>
 </head>
 <body>
-    
+
+    <div class="modal-container">
+        <!-- Header -->
+        <div class="modal-header">
+            <button class="close-btn" onclick="window.location.href='index.html'">&times;</button>
+            <div class="modal-header-bg-circle"></div>
+            
+            <div class="header-tag">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                ILOCOS SUR TRIP PLANNER
+            </div>
+            <h1 class="header-title">Craft Your Perfect Journey</h1>
+            <p class="header-subtitle">Let us build a personalized itinerary for your Ilocos Sur adventure</p>
+
+            <div class="progress-wrapper">
+                <div class="progress-line-bg"></div>
+                <div class="progress-line-fill" id="progress-fill" style="width: 0%;"></div>
+                
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Travelers</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Dates</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Interests</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Budget</div>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Your Itinerary</div>
+                </div>
+                <div class="progress-step" data-step="6">
+                    <div class="step-circle">6</div>
+                    <div class="step-label">Booking</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body" id="modal-body">
+            
+            <!-- Step 1: Travelers -->
+            <div class="step-content active" id="step-1">
+                <h2 class="section-heading">Who are you traveling with?</h2>
+                <p class="section-subheading">We'll tailor your experience to match your group</p>
+
+                <div class="options-grid" id="traveler-type-grid">
+                    <div class="option-card" data-value="Solo">
+                        <div class="option-icon">🧳</div>
+                        <div class="option-title">Solo Traveler</div>
+                        <div class="option-desc">Freedom to explore at your own pace</div>
+                    </div>
+                    <div class="option-card" data-value="Couple">
+                        <div class="option-icon">💑</div>
+                        <div class="option-title">Couple</div>
+                        <div class="option-desc">Romantic getaway for two</div>
+                    </div>
+                    <div class="option-card" data-value="Family">
+                        <div class="option-icon">👨‍👩‍👧‍👦</div>
+                        <div class="option-title">Family</div>
+                        <div class="option-desc">Fun for all ages</div>
+                    </div>
+                    <div class="option-card" data-value="Group">
+                        <div class="option-icon">🎉</div>
+                        <div class="option-title">Friends / Group</div>
+                        <div class="option-desc">Adventure with your crew</div>
+                    </div>
+                </div>
+
+                <div class="group-size-control">
+                    <div class="group-size-label">Group Size</div>
+                    <button class="btn-circle btn-minus" id="btn-minus">-</button>
+                    <div class="group-size-value" id="group-size-val">1</div>
+                    <button class="btn-circle btn-plus" id="btn-plus">+</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Dates -->
+            <div class="step-content" id="step-2">
+                <h2 class="section-heading">When are you visiting?</h2>
+                <p class="section-subheading">Pick your travel dates and how long you'll stay</p>
+
+                <label style="font-weight: 700; color: #1A2332; font-size: 14px; margin-bottom: 8px; display: block;">Start Date (optional)</label>
+                <input type="date" class="input-field" id="start-date" placeholder="dd/mm/yyyy">
+
+                <label style="font-weight: 700; color: #1A2332; font-size: 14px; margin-bottom: 8px; display: block;">Trip Duration</label>
+                <div class="duration-grid" id="duration-grid">
+                    <div class="duration-card" data-value="2">
+                        <div class="duration-num">2</div>
+                        <div class="duration-text">days</div>
+                    </div>
+                    <div class="duration-card selected" data-value="3">
+                        <div class="duration-num">3</div>
+                        <div class="duration-text">days</div>
+                    </div>
+                    <div class="duration-card" data-value="4">
+                        <div class="duration-num">4</div>
+                        <div class="duration-text">days</div>
+                    </div>
+                    <div class="duration-card" data-value="5">
+                        <div class="duration-num">5</div>
+                        <div class="duration-text">days</div>
+                    </div>
+                    <div class="duration-card" data-value="6">
+                        <div class="duration-num">6</div>
+                        <div class="duration-text">days</div>
+                    </div>
+                    <div class="duration-card" data-value="7">
+                        <div class="duration-num">7</div>
+                        <div class="duration-text">days</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <div class="info-box-icon">📅</div>
+                    <div class="info-box-content">
+                        <h4>Best time to visit</h4>
+                        <p>November to April — dry season with clear skies and cool evenings perfect for heritage walks.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Destinations -->
+            <div class="step-content" id="step-3">
+                <h2 class="section-heading">Where do you want to go?</h2>
+                <p class="section-subheading">Select the top places you want to include in your itinerary</p>
+
+                <div class="options-grid" style="grid-template-columns: repeat(3, 1fr);" id="dest-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Step 4: Budget -->
+            <div class="step-content" id="step-4">
+                <h2 class="section-heading">What's your budget range?</h2>
+                <p class="section-subheading">We'll suggest accommodation and dining options to match</p>
+
+                <div class="options-grid" style="grid-template-columns: 1fr 1fr;" id="budget-grid">
+                    <div class="option-card budget-card" data-value="Budget">
+                        <div class="budget-card-inner">
+                            <div class="option-icon">💰</div>
+                            <div>
+                                <div class="option-title">Budget</div>
+                                <div class="budget-amount">₱1,000–2,500/day</div>
+                                <div class="option-desc">Local transport, carinderia meals</div>
+                            </div>
+                        </div>
+                        <div class="budget-check">☑</div>
+                    </div>
+                    <div class="option-card budget-card" data-value="Mid-Range">
+                        <div class="budget-card-inner">
+                            <div class="option-icon">💳</div>
+                            <div>
+                                <div class="option-title">Mid-Range</div>
+                                <div class="budget-amount">₱2,500–6,000/day</div>
+                                <div class="option-desc">Comfortable hotels, local restaurants</div>
+                            </div>
+                        </div>
+                        <div class="budget-check">☑</div>
+                    </div>
+                    <div class="option-card budget-card" data-value="Premium">
+                        <div class="budget-card-inner">
+                            <div class="option-icon">✨</div>
+                            <div>
+                                <div class="option-title">Premium</div>
+                                <div class="budget-amount">₱6,000–15,000/day</div>
+                                <div class="option-desc">Boutique inns, curated dining</div>
+                            </div>
+                        </div>
+                        <div class="budget-check">☑</div>
+                    </div>
+                    <div class="option-card budget-card" data-value="Luxury">
+                        <div class="budget-card-inner">
+                            <div class="option-icon">👑</div>
+                            <div>
+                                <div class="option-title">Luxury</div>
+                                <div class="budget-amount">₱15,000+/day</div>
+                                <div class="option-desc">Heritage villas, private tours</div>
+                            </div>
+                        </div>
+                        <div class="budget-check">☑</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Itinerary -->
+            <div class="step-content" id="step-5">
+                <div class="itinerary-pills" id="it-pills">
+                    <div class="itinerary-pill">👤 Solo Traveler</div>
+                    <div class="itinerary-pill">📅 3 Days</div>
+                    <div class="itinerary-pill">💰 Budget</div>
+                </div>
+
+                <div class="itinerary-header-row">
+                    <h2 class="section-heading" id="it-title" style="margin: 0;">Your 3-Day Ilocos Sur Itinerary</h2>
+                    <div class="itinerary-actions">
+                        <button class="itinerary-action-btn">🔗</button>
+                        <button class="itinerary-action-btn" onclick="window.print()">📥</button>
+                    </div>
+                </div>
+
+                <div class="day-selector" id="day-selector">
+                    <div class="day-pill active">Day 1</div>
+                    <div class="day-pill">Day 2</div>
+                    <div class="day-pill">Day 3</div>
+                </div>
+
+                <div class="timeline" id="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-icon orange">🕒</div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3 class="timeline-title">Breakfast at a heritage café</h3>
+                                <span class="timeline-time">7:00 AM</span>
+                            </div>
+                            <div class="timeline-location">📍 Vigan City</div>
+                            <div class="timeline-tip">⭐ Try empanada and longganisa</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon blue">🕒</div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3 class="timeline-title">Calle Crisologo walking tour</h3>
+                                <span class="timeline-time">9:00 AM</span>
+                            </div>
+                            <div class="timeline-location">📍 Vigan Heritage Village</div>
+                            <div class="timeline-tip">⭐ Best light for photos in the morning</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Booking Details -->
+            <div class="step-content" id="step-6">
+                <h2 class="section-heading">Passenger & Booking Details</h2>
+                <p class="section-subheading">Please provide your final details to secure your trip.</p>
+
+                <form id="booking-form" style="display: flex; flex-direction: column; gap: 24px;">
+                    <!-- Personal Info -->
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
+                        <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">1. Personal Information</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div><label style="font-size: 12px; font-weight: 600;">Name</label><input type="text" name="name" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Juan Dela Cruz" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Date of Birth</label><input type="date" name="dob" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Gender</label><select name="gender" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Gender</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Nationality</label><input type="text" name="nationality" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Filipino" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Email</label><input type="email" name="email" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="juan@example.com" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Phone Number</label><input type="tel" name="phone" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="+63 912 345 6789" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Passport / ID Number</label><input type="text" name="passport_number" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="P1234567A" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">ID Expiry Date</label><input type="date" name="passport_expiry" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
+                        </div>
+                    </div>
+
+                    <!-- Flight/Trip -->
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
+                        <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">2. Travel & Flight Details</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div><label style="font-size: 12px; font-weight: 600;">Trip Type</label><select name="trip_type" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Trip Type</option><option>One-way</option><option>Round-trip</option><option>Multi-city</option></select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Number of Travelers</label><input type="number" name="travelers_count" class="input-field" style="margin-bottom:0; padding: 10px;" min="1" value="1" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Origin</label><input type="text" name="origin" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Manila" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Destination</label><input type="text" name="destination" class="input-field" style="margin-bottom:0; padding: 10px;" value="Ilocos Sur" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Departure Date</label><input type="date" name="departure_date" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Return Date</label><input type="date" name="return_date" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Class</label><select name="flight_class" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Class</option><option>Economy</option><option>Business</option><option>First</option></select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Seat Preference</label><input type="text" name="seat_preference" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Window seat" required></div>
+                        </div>
+                    </div>
+
+                    <!-- Accommodation -->
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
+                        <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">3. Accommodation Details</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div><label style="font-size: 12px; font-weight: 600;">Hotel Name/Preference</label><input type="text" name="hotel_name" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Hotel Luna" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Room Type</label><input type="text" name="room_type" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Deluxe Queen" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Check-in Date</label><input type="date" name="check_in" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Check-out Date</label><input type="date" name="check_out" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Number of Guests</label><input type="number" name="hotel_guests" class="input-field" style="margin-bottom:0; padding: 10px;" min="1" value="1" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Meal Preference</label><input type="text" name="meal_preference" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Vegetarian" required></div>
+                        </div>
+                        <div style="margin-top: 16px;"><label style="font-size: 12px; font-weight: 600;">Special Assistance/Requests</label><input type="text" name="special_requests" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Wheelchair access needed" required></div>
+                    </div>
+
+                    <!-- Payment -->
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
+                        <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">4. Payment & Protection</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div><label style="font-size: 12px; font-weight: 600;">Travel Insurance</label><select name="travel_insurance" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Payment Method</label><select name="payment_method" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Method</option><option>Credit Card</option><option>Debit Card</option><option>GCash</option></select></div>
+                            <div style="grid-column: span 2;"><label style="font-size: 12px; font-weight: 600;">Card Number / Account</label><input type="text" name="card_number" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="xxxx-xxxx-xxxx-xxxx" required></div>
+                            <div style="grid-column: span 2;"><label style="font-size: 12px; font-weight: 600;">Billing Address</label><input type="text" name="billing_address" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="123 Mabini St., Vigan City" required></div>
+                        </div>
+                        <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" name="terms_accepted" id="terms" required style="width: 16px; height: 16px;">
+                            <label for="terms" style="font-size: 13px; color: #4B5563;">I accept the Terms & Conditions and confirm my booking details.</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer">
+            <div class="footer-left">
+                <button class="btn-back" id="btn-prev" style="visibility: hidden;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Back
+                </button>
+            </div>
+            
+            <div class="step-indicator" id="step-indicator">Step 1 of 5</div>
+            
+            <div id="footer-actions">
+                <button class="btn-action" id="btn-next">
+                    Next Step <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Success Modal -->
+    <div id="success-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 999999; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s;">
+        <div style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; box-shadow: 0 0 40px rgba(255, 143, 0, 0.4), 0 10px 30px rgba(0,0,0,0.3);">
+            <div style="font-size: 60px; margin-bottom: 20px;">🎒</div>
+            <h2 style="font-family: 'Playfair Display', serif; color: #1A2332; margin-bottom: 12px;">Thank you for booking a trip!</h2>
+            <p style="color: #6B7280; font-size: 15px; margin-bottom: 30px;">Your personalized itinerary has been saved. See you there!</p>
+            <button class="btn-action" style="width: 100%; justify-content: center; box-shadow: 0 0 15px rgba(255, 143, 0, 0.6), 0 4px 6px rgba(255, 143, 0, 0.3);" onclick="window.location.href='index.html'">Return to Home</button>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
+        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+        // State
+        const formData = {
+            travelerType: '',
+            groupSize: 1,
+            startDate: '',
+            duration: '3',
+            destinations: [],
+            budget: ''
+        };
+
+        const places = [
+            { id: 'Vigan Heritage Village', img: '../Assets/vigan-heritage-village.png' },
+            { id: 'Calle Crisologo', img: '../Assets/calle-crisologo.png' },
+            { id: 'Bantay Bell Tower', img: '../Assets/bantay -church.jpg' },
+            { id: 'Baluarte Zoo', img: '../Assets/Baluarte-Zoo.jpg' },
+            { id: 'Hidden Garden', img: '../Assets/Hidden-Garden-Restaurant-Vigan.jpg' },
+            { id: 'Santiago Cove', img: '../Assets/santiago-cove.jpg' },
+            { id: 'Pinsal Falls', img: '../Assets/pinsal-falls.jpg' },
+            { id: 'Sta. Maria Church', img: '../Assets/sta-maria-church.jpg' },
+            { id: 'Sta Catalina Beach', img: '../Assets/sta-catalina-beach.png' }
+        ];
+
+        // Populate Places
+        const destGrid = document.getElementById('dest-grid');
+        places.forEach(place => {
+            const el = document.createElement('div');
+            el.className = 'dest-card';
+            el.dataset.value = place.id;
+            el.innerHTML = `
+                <img src="${place.img}" alt="${place.id}">
+                <div class="dest-card-title">${place.id}</div>
+            `;
+            destGrid.appendChild(el);
+        });
+
+        // Navigation Logic
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        const updateUI = () => {
+            // Steps visibility
+            document.querySelectorAll('.step-content').forEach((el, index) => {
+                el.classList.toggle('active', index + 1 === currentStep);
+            });
+            
+            // Progress Header
+            document.querySelectorAll('.progress-step').forEach((el, index) => {
+                const stepNum = index + 1;
+                el.classList.toggle('active', stepNum === currentStep);
+                el.classList.toggle('completed', stepNum < currentStep);
+                
+                // Update checkmarks for completed
+                const circle = el.querySelector('.step-circle');
+                if (stepNum < currentStep) {
+                    circle.innerHTML = '✓';
+                } else {
+                    circle.innerHTML = stepNum;
+                }
+            });
+
+            // Progress bar line
+            const fillWidth = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progress-fill').style.width = `calc(${fillWidth}% - 40px)`;
+
+            // Footer
+            document.getElementById('btn-prev').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            
+            const actionsContainer = document.getElementById('footer-actions');
+            
+            if (currentStep === 4) {
+                // Generate Itinerary button
+                document.getElementById('step-indicator').textContent = `Step 4 of 6`;
+                actionsContainer.innerHTML = `
+                    <button class="btn-action green" id="btn-generate">
+                        ✨ Generate Itinerary <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                `;
+                document.getElementById('btn-generate').addEventListener('click', generateItinerary);
+            } else if (currentStep === 5) {
+                // Done / Explore
+                document.getElementById('step-indicator').textContent = `Step 5 of 6`;
+                actionsContainer.innerHTML = `
+                    <button class="btn-action btn-outline" style="margin-right: 12px; color: #1A2332; display: inline-flex;" id="btn-start-over">Start Over</button>
+                    <button class="btn-action" style="display: inline-flex;" id="btn-book">Continue to Booking ➜</button>
+                `;
+                document.getElementById('btn-start-over').addEventListener('click', () => {
+                    currentStep = 1;
+                    document.getElementById('step-indicator').style.display = 'block';
+                    updateUI();
+                });
+                document.getElementById('btn-book').addEventListener('click', () => {
+                    currentStep = 6;
+                    updateUI();
+                });
+            } else if (currentStep === 6) {
+                document.getElementById('step-indicator').style.display = 'none';
+                actionsContainer.innerHTML = `
+                    <button type="submit" form="booking-form" class="btn-action green" style="display: inline-flex; width: 100%; justify-content: center;" id="btn-confirm-book">Confirm Booking & Pay ✨</button>
+                `;
+            } else {
+                document.getElementById('step-indicator').textContent = `Step ${currentStep} of 6`;
+                document.getElementById('step-indicator').style.display = 'block';
+                actionsContainer.innerHTML = `
+                    <button class="btn-action" id="btn-next">
+                        Next Step <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                `;
+                document.getElementById('btn-next').addEventListener('click', () => {
+                    if (currentStep < totalSteps) currentStep++;
+                    updateUI();
+                });
+            }
+
+            // Scroll to top of modal body
+            document.getElementById('modal-body').scrollTop = 0;
+        };
+
+        // Prev Button
+        document.getElementById('btn-prev').addEventListener('click', () => {
+            if (currentStep > 1) currentStep--;
+            updateUI();
+        });
+
+        // Setup Selection logic
+        const setupSingleSelect = (gridId, dataKey) => {
+            const grid = document.getElementById(gridId);
+            grid.addEventListener('click', (e) => {
+                const card = e.target.closest('.option-card') || e.target.closest('.duration-card');
+                if (!card) return;
+                
+                Array.from(grid.children).forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                formData[dataKey] = card.dataset.value;
+            });
+        };
+
+        const setupMultiSelect = (gridId, dataKey) => {
+            const grid = document.getElementById(gridId);
+            grid.addEventListener('click', (e) => {
+                const card = e.target.closest('.dest-card');
+                if (!card) return;
+
+                card.classList.toggle('selected');
+                const val = card.dataset.value;
+                if (card.classList.contains('selected')) {
+                    formData[dataKey].push(val);
+                } else {
+                    formData[dataKey] = formData[dataKey].filter(item => item !== val);
+                }
+            });
+        };
+
+        setupSingleSelect('traveler-type-grid', 'travelerType');
+        setupSingleSelect('duration-grid', 'duration');
+        setupSingleSelect('budget-grid', 'budget');
+        setupMultiSelect('dest-grid', 'destinations');
+
+        // Group Size
+        const valEl = document.getElementById('group-size-val');
+        document.getElementById('btn-minus').addEventListener('click', () => {
+            if(formData.groupSize > 1) {
+                formData.groupSize--;
+                valEl.textContent = formData.groupSize;
+            }
+        });
+        document.getElementById('btn-plus').addEventListener('click', () => {
+            formData.groupSize++;
+            valEl.textContent = formData.groupSize;
+        });
+
+        // Date
+        document.getElementById('start-date').addEventListener('change', (e) => formData.startDate = e.target.value);
+
+        // Initial event binding for step 1
+        document.getElementById('btn-next').addEventListener('click', () => {
+            if (currentStep < totalSteps) currentStep++;
+            updateUI();
+        });
+
+        // Generate Itinerary Logic
+        async function generateItinerary() {
+            // Save to Supabase (simulated)
+            /*
+            await fetch(`${SUPABASE_URL}/rest/v1/trip_planners`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` },
+                body: JSON.stringify(formData)
+            });
+            */
+           
+            // Move to step 5
+            currentStep = 5;
+            updateUI();
+
+            // Populate Step 5 data
+            const typeLabel = formData.travelerType || "Explorer";
+            const dur = formData.duration || 3;
+            const bud = formData.budget || "Standard";
+            
+            document.getElementById('it-pills').innerHTML = `
+                <div class="itinerary-pill">👤 ${typeLabel}</div>
+                <div class="itinerary-pill">📅 ${dur} Days</div>
+                <div class="itinerary-pill">💰 ${bud}</div>
+            `;
+            document.getElementById('it-title').textContent = `Your ${dur}-Day Ilocos Sur Itinerary`;
+
+            // Setup day selectors
+            let daysHtml = '';
+            for(let i=1; i<=dur; i++) {
+                daysHtml += `<div class="day-pill ${i===1?'active':''}">${i===1 ? 'Day 1' : 'Day ' + i}</div>`;
+            }
+            document.getElementById('day-selector').innerHTML = daysHtml;
+        }
+
+        // Form Submission Logic
+        document.getElementById('booking-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default page reload
+            const submitBtn = document.getElementById('btn-confirm-book');
+            submitBtn.innerHTML = 'Processing...';
+
+            try {
+                // 1. Extract all form data securely into a JSON object
+                const form = e.target;
+                const data = new FormData(form);
+                const payload = Object.fromEntries(data.entries());
+
+                // 2. Include the initial planner states (Step 1-4)
+                payload.planner_travelerType = formData.travelerType;
+                payload.planner_groupSize = formData.groupSize;
+                payload.planner_duration = formData.duration;
+                payload.planner_destinations = formData.destinations;
+
+                // 3. Send POST Request to Supabase REST API
+                // REPLACE SUPABASE_URL AND SUPABASE_KEY to activate!
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Prefer': 'return=minimal' // don't return the entire inserted row
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to insert into Supabase');
+                }
+
+                // 4. Simulate network request for demonstration
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                // 5. Show Success Modal
+                const successModal = document.getElementById('success-modal');
+                successModal.style.display = 'flex';
+                setTimeout(() => successModal.style.opacity = '1', 10);
+            } catch (error) {
+                alert('An error occurred while saving your booking. Please check your Supabase credentials.');
+            } finally {
+                submitBtn.innerHTML = 'Confirm Booking & Pay ✨';
+            }
+        });
+
+        // Initialize UI
+        updateUI();
+    </script>
 </body>
 </html>

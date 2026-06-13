@@ -207,10 +207,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-title {
-    color: var(--text-blue);
+    color: #ffffff;
     font-size: 80px;
     line-height: 1.1;
     margin: 16px 0;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 
+                 0 0 40px rgba(255, 255, 255, 0.3), 
+                 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .hero-desc {
@@ -751,6 +754,20 @@ h1, h2, h3, h4, h5, h6 {
 
 .vehicle-pulse.active {
     opacity: 1;
+}
+
+@keyframes drive-kalesa-x {
+    0% { left: -300px; }
+    100% { left: 100vw; }
+}
+
+@keyframes drive-kalesa-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.kalesa-moving {
+    animation: drive-kalesa-x 2.5s linear forwards, drive-kalesa-y 0.3s ease-in-out infinite;
 }
 
 .hidden {
