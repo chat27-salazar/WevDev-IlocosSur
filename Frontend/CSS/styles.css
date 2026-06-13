@@ -168,11 +168,12 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
+    user-select: none;
 }
 
 .nav-link:hover {
-    color: var(--text-light);
+    color: var(--accent);
 }
 
 /* ==========================================================================
@@ -455,12 +456,24 @@ h1, h2, h3, h4, h5, h6 {
     padding: 12px;
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
     gap: 12px;
+    user-select: none;
+    border: 1px solid transparent;
 }
 
-.destination-card:hover, .destination-card.active {
-    background: #F3F4F6;
+.destination-card:hover {
+    background: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(26, 155, 225, 0.15);
+    border-color: rgba(26, 155, 225, 0.2);
+}
+
+.destination-card.active {
+    background: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(26, 155, 225, 0.3);
+    border-color: rgba(26, 155, 225, 0.3);
 }
 
 .dest-icon-bg {
