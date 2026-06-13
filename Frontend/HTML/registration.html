@@ -1028,7 +1028,7 @@
                             <div><label style="font-size: 12px; font-weight: 600;">Departure Date</label><input type="date" name="departure_date" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
                             <div><label style="font-size: 12px; font-weight: 600;">Return Date</label><input type="date" name="return_date" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
                             <div><label style="font-size: 12px; font-weight: 600;">Class</label><select name="flight_class" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Class</option><option>Economy</option><option>Business</option><option>First</option></select></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Seat Preference</label><input type="text" name="seat_preference" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Window seat" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Seat Preference</label><select name="seat_preference" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Preference</option><option>Not Available (N/A)</option><option>Window</option><option>Aisle</option><option>Middle</option></select></div>
                         </div>
                     </div>
 
@@ -1036,14 +1036,14 @@
                     <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
                         <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">3. Accommodation Details</h3>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div><label style="font-size: 12px; font-weight: 600;">Hotel Name/Preference</label><input type="text" name="hotel_name" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Hotel Luna" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Room Type</label><input type="text" name="room_type" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Deluxe Queen" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Hotel Name/Preference</label><select name="hotel_name" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Hotel</option><option>Not Available (N/A)</option><option>Hotel Luna</option><option>Paradores de Vigan</option><option>Hotel Veneto</option><option>Other</option></select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Room Type</label><select name="room_type" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Room Type</option><option>Not Available (N/A)</option><option>Standard</option><option>Deluxe</option><option>Suite</option></select></div>
                             <div><label style="font-size: 12px; font-weight: 600;">Check-in Date</label><input type="date" name="check_in" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
                             <div><label style="font-size: 12px; font-weight: 600;">Check-out Date</label><input type="date" name="check_out" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
                             <div><label style="font-size: 12px; font-weight: 600;">Number of Guests</label><input type="number" name="hotel_guests" class="input-field" style="margin-bottom:0; padding: 10px;" min="1" value="1" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Meal Preference</label><input type="text" name="meal_preference" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Vegetarian" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Meal Preference</label><select name="meal_preference" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Meal</option><option>Not Available (N/A)</option><option>Standard</option><option>Vegetarian</option><option>Vegan</option><option>Halal</option></select></div>
                         </div>
-                        <div style="margin-top: 16px;"><label style="font-size: 12px; font-weight: 600;">Special Assistance/Requests</label><input type="text" name="special_requests" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Wheelchair access needed" required></div>
+                        <div style="margin-top: 16px;"><label style="font-size: 12px; font-weight: 600;">Special Assistance/Requests</label><select name="special_requests" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Assistance</option><option>Not Available (N/A)</option><option>Wheelchair Access</option><option>Hearing Impaired Support</option><option>Visually Impaired Support</option></select></div>
                     </div>
 
                     <!-- Payment -->
@@ -1332,6 +1332,7 @@
 
                 // 3. Send POST Request to Supabase REST API
                 // REPLACE SUPABASE_URL AND SUPABASE_KEY to activate!
+                /*
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
                     method: 'POST',
                     headers: {
@@ -1346,6 +1347,7 @@
                 if (!response.ok) {
                     throw new Error('Failed to insert into Supabase');
                 }
+                */
 
                 // 4. Simulate network request for demonstration
                 await new Promise(resolve => setTimeout(resolve, 800));
