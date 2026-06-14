@@ -1,760 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ilocos Sur Trip Planner</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/styles.css">
-    <style>
-        body {
-            background: url('../Assets/vigan-heritage-village.png') no-repeat center center fixed;
-            background-size: cover;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* Dark overlay for background */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-            z-index: 0;
-        }
-
-        .modal-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 900px;
-            background: #FDFBF7;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            max-height: 90vh;
-        }
-
-        /* Header Area */
-        .modal-header {
-            background: #253245; /* Dark blue */
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .modal-header-bg-circle {
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 18px;
-            z-index: 5;
-        }
-
-        .close-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .header-tag {
-            color: #FF8F00;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .header-title {
-            color: white;
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            margin: 0 0 8px 0;
-        }
-
-        .header-subtitle {
-            color: #A0AABF;
-            font-size: 14px;
-            margin: 0 0 30px 0;
-        }
-
-        /* Progress Bar */
-        .progress-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            margin-top: 20px;
-        }
-
-        .progress-line-bg {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            right: 20px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            z-index: 1;
-        }
-
-        .progress-line-fill {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            height: 2px;
-            background: #4CAF50;
-            z-index: 2;
-            transition: width 0.3s ease;
-        }
-
-        .progress-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            z-index: 3;
-            flex: 1;
-        }
-
-        .step-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #4A5568;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .step-label {
-            color: #A0AABF;
-            font-size: 11px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .progress-step.active .step-circle {
-            background: #FF8F00;
-        }
-
-        .progress-step.active .step-label {
-            color: #FF8F00;
-        }
-
-        .progress-step.completed .step-circle {
-            background: #4CAF50;
-            color: white;
-        }
-
-        /* Body Area */
-        .modal-body {
-            padding: 40px;
-            overflow-y: auto;
-            flex: 1;
-            position: relative;
-        }
-
-        .step-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .step-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-heading {
-            color: #1A2332;
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-        }
-
-        .section-subheading {
-            color: #6B7280;
-            font-size: 14px;
-            margin: 0 0 30px 0;
-        }
-
-        /* Options Grid */
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .option-card {
-            background: white;
-            border: 2px solid #F3F4F6;
-            border-radius: 16px;
-            padding: 24px 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
-
-        .option-card:hover {
-            border-color: #FFD599;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 143, 0, 0.1);
-        }
-
-        .option-card.selected {
-            border-color: #FF8F00;
-            background: #FFFBF5;
-        }
-
-        .option-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .option-title {
-            color: #1A2332;
-            font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 8px;
-        }
-
-        .option-desc {
-            color: #9CA3AF;
-            font-size: 12px;
-            line-height: 1.4;
-        }
-
-        /* Step 1 Specifics */
-        .group-size-control {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 30px;
-        }
-
-        .group-size-label {
-            font-weight: 700;
-            color: #1A2332;
-            font-size: 16px;
-        }
-
-        .btn-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-minus {
-            background: #F3F4F6;
-            color: #4B5563;
-        }
-
-        .btn-minus:hover {
-            background: #E5E7EB;
-        }
-
-        .btn-plus {
-            background: #FF8F00;
-            color: white;
-        }
-
-        .btn-plus:hover {
-            background: #E68100;
-        }
-
-        .group-size-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #FF8F00;
-            min-width: 20px;
-            text-align: center;
-        }
-
-        /* Step 2 Specifics */
-        .input-field {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #F3F4F6;
-            border-radius: 12px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 15px;
-            color: #1A2332;
-            outline: none;
-            transition: border-color 0.2s;
-            margin-bottom: 30px;
-        }
-
-        .input-field:focus {
-            border-color: #FF8F00;
-        }
-
-        .duration-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .duration-card {
-            background: white;
-            border: 2px solid #F3F4F6;
-            border-radius: 12px;
-            padding: 16px 0;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .duration-card.selected {
-            border-color: #FF8F00;
-            background: #FFFBF5;
-        }
-
-        .duration-num {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1A2332;
-        }
-
-        .duration-card.selected .duration-num {
-            color: #FF8F00;
-        }
-
-        .duration-text {
-            font-size: 11px;
-            color: #9CA3AF;
-        }
-
-        .info-box {
-            background: #F0F9FF;
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            gap: 12px;
-        }
-
-        .info-box-icon {
-            color: #0EA5E9;
-            font-size: 20px;
-        }
-
-        .info-box-content h4 {
-            color: #0369A1;
-            margin: 0 0 4px 0;
-            font-size: 14px;
-        }
-
-        .info-box-content p {
-            color: #0284C7;
-            margin: 0;
-            font-size: 12px;
-        }
-
-        /* Step 3: Destinations */
-        .dest-card {
-            position: relative;
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 2px solid transparent;
-            cursor: pointer;
-            height: 160px;
-        }
-
-        .dest-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .dest-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-        }
-
-        .dest-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .dest-card.selected {
-            border-color: #FF8F00;
-        }
-
-        .dest-card.selected::before {
-            content: '✓';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 24px;
-            height: 24px;
-            background: #FF8F00;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .dest-card-title {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            right: 12px;
-            color: white;
-            z-index: 5;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        /* Budget Card Variations */
-        .budget-card {
-            text-align: left;
-            padding: 20px;
-            position: relative;
-        }
-        
-        .budget-card .option-icon {
-            font-size: 24px;
-            margin-bottom: 0;
-            margin-right: 16px;
-        }
-
-        .budget-card-inner {
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .budget-check {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #FF8F00;
-            display: none;
-            font-size: 20px;
-        }
-
-        .budget-card.selected .budget-check {
-            display: block;
-        }
-
-        .budget-card.selected .option-title {
-            color: #1A2332;
-        }
-
-        .budget-card .option-title {
-            margin-bottom: 4px;
-        }
-        
-        .budget-card .budget-amount {
-            color: #FF8F00;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        /* Step 5: Itinerary */
-        .itinerary-pills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .itinerary-pill {
-            background: #E8F5E9;
-            color: #2E7D32;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .itinerary-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .itinerary-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .itinerary-action-btn {
-            background: #F3F4F6;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #4B5563;
-            cursor: pointer;
-        }
-
-        .day-selector {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 30px;
-        }
-
-        .day-pill {
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: #F3F4F6;
-            color: #6B7280;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .day-pill.active {
-            background: #1A2332;
-            color: white;
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-bottom: 30px;
-            padding-left: 30px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -19px;
-            top: 30px;
-            bottom: 0;
-            width: 2px;
-            background: #E5E7EB;
-        }
-
-        .timeline-item:last-child::before {
-            display: none;
-        }
-
-        .timeline-icon {
-            position: absolute;
-            left: -32px;
-            top: 0;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 12px;
-            z-index: 2;
-            border: 4px solid #FDFBF7;
-        }
-
-        .timeline-icon.orange { background: #FF8F00; }
-        .timeline-icon.blue { background: #1E88E5; }
-        .timeline-icon.green { background: #4CAF50; }
-
-        .timeline-content {
-            background: white;
-            border: 1px solid #F3F4F6;
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .timeline-title {
-            font-weight: 700;
-            color: #1A2332;
-            font-size: 15px;
-            margin: 0;
-        }
-
-        .timeline-time {
-            background: #F3F4F6;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #6B7280;
-        }
-
-        .timeline-location {
-            color: #FF8F00;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .timeline-tip {
-            color: #6B7280;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-
-        /* Footer */
-        .modal-footer {
-            padding: 20px 40px;
-            background: white;
-            border-top: 1px solid #F3F4F6;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 0 0 20px 20px;
-            flex-shrink: 0;
-        }
-
-        .footer-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .btn-back {
-            background: transparent;
-            border: none;
-            color: #9CA3AF;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px;
-        }
-
-        .btn-back:hover {
-            color: #4B5563;
-        }
-
-        .step-indicator {
-            color: #9CA3AF;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .btn-action {
-            background: #FF8F00;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 24px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.2s;
-        }
-
-        .btn-action:hover {
-            background: #E68100;
-        }
-
-        .btn-action.green {
-            background: #2E7D32;
-        }
-
-        .btn-action.green:hover {
-            background: #1B5E20;
-        }
-
-        .btn-outline {
-            background: white;
-            color: #4B5563;
-            border: 1px solid #D1D5DB;
-        }
-        
-        .btn-outline:hover {
-            background: #F3F4F6;
-        }
-        
-    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/styles-registration.css">
 </head>
+
 <body>
 
     <div class="modal-container">
@@ -762,9 +18,13 @@
         <div class="modal-header">
             <button class="close-btn" onclick="window.location.href='index.html'">&times;</button>
             <div class="modal-header-bg-circle"></div>
-            
+
             <div class="header-tag">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
                 ILOCOS SUR TRIP PLANNER
             </div>
             <h1 class="header-title">Craft Your Perfect Journey</h1>
@@ -773,7 +33,7 @@
             <div class="progress-wrapper">
                 <div class="progress-line-bg"></div>
                 <div class="progress-line-fill" id="progress-fill" style="width: 0%;"></div>
-                
+
                 <div class="progress-step active" data-step="1">
                     <div class="step-circle">1</div>
                     <div class="step-label">Travelers</div>
@@ -803,7 +63,7 @@
 
         <!-- Body -->
         <div class="modal-body" id="modal-body">
-            
+
             <!-- Step 1: Travelers -->
             <div class="step-content active" id="step-1">
                 <h2 class="section-heading">Who are you traveling with?</h2>
@@ -845,10 +105,14 @@
                 <h2 class="section-heading">When are you visiting?</h2>
                 <p class="section-subheading">Pick your travel dates and how long you'll stay</p>
 
-                <label style="font-weight: 700; color: #1A2332; font-size: 14px; margin-bottom: 8px; display: block;">Start Date (optional)</label>
+                <label
+                    style="font-weight: 700; color: #1A2332; font-size: 14px; margin-bottom: 8px; display: block;">Start
+                    Date (optional)</label>
                 <input type="date" class="input-field" id="start-date" placeholder="dd/mm/yyyy">
 
-                <label style="font-weight: 700; color: #1A2332; font-size: 14px; margin-bottom: 8px; display: block;">Trip Duration</label>
+                <label
+                    style="font-weight: 700; color: #1A2332; font-size: 14px; margin-bottom: 8px; display: block;">Trip
+                    Duration</label>
                 <div class="duration-grid" id="duration-grid">
                     <div class="duration-card" data-value="2">
                         <div class="duration-num">2</div>
@@ -880,7 +144,8 @@
                     <div class="info-box-icon">📅</div>
                     <div class="info-box-content">
                         <h4>Best time to visit</h4>
-                        <p>November to April — dry season with clear skies and cool evenings perfect for heritage walks.</p>
+                        <p>November to April — dry season with clear skies and cool evenings perfect for heritage walks.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1006,29 +271,82 @@
                     <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
                         <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">1. Personal Information</h3>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div><label style="font-size: 12px; font-weight: 600;">Name</label><input type="text" name="name" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Juan Dela Cruz" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Date of Birth</label><input type="date" name="dob" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Gender</label><select name="gender" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Gender</option><option>Male</option><option>Female</option><option>Other</option></select></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Nationality</label><input type="text" name="nationality" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Filipino" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Email</label><input type="email" name="email" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="juan@example.com" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Phone Number</label><input type="tel" name="phone" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="+63 912 345 6789" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Passport / ID Number</label><input type="text" name="passport_number" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="P1234567A" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">ID Expiry Date</label><input type="date" name="passport_expiry" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Name</label><input type="text"
+                                    name="full_name" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    placeholder="Juan Dela Cruz" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Date of Birth</label><input
+                                    type="date" name="dob" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Gender</label><select name="gender"
+                                    class="input-field" style="margin-bottom:0; padding: 10px;" required>
+                                    <option value="">Select Gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Nationality</label><input type="text"
+                                    name="nationality" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    placeholder="Filipino" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Email</label><input type="email"
+                                    name="email" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    placeholder="juan@example.com" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Phone Number</label><input type="tel"
+                                    name="phone" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    placeholder="+63 912 345 6789" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Passport / ID Number</label><input
+                                    type="text" name="passport_number" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" placeholder="P1234567A" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">ID Expiry Date</label><input
+                                    type="date" name="passport_expiry" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" required></div>
                         </div>
                     </div>
 
                     <!-- Flight/Trip -->
                     <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
-                        <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">2. Travel & Flight Details</h3>
+                        <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">2. Travel & Flight Details
+                        </h3>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div><label style="font-size: 12px; font-weight: 600;">Trip Type</label><select name="trip_type" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Trip Type</option><option>One-way</option><option>Round-trip</option><option>Multi-city</option></select></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Number of Travelers</label><input type="number" name="travelers_count" class="input-field" style="margin-bottom:0; padding: 10px;" min="1" value="1" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Origin</label><input type="text" name="origin" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="Manila" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Destination</label><input type="text" name="destination" class="input-field" style="margin-bottom:0; padding: 10px;" value="Ilocos Sur" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Departure Date</label><input type="date" name="departure_date" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Return Date</label><input type="date" name="return_date" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Class</label><select name="flight_class" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Class</option><option>Economy</option><option>Business</option><option>First</option></select></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Seat Preference</label><select name="seat_preference" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Preference</option><option>Not Available (N/A)</option><option>Window</option><option>Aisle</option><option>Middle</option></select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Trip Type</label><select
+                                    name="trip_type" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required>
+                                    <option value="">Select Trip Type</option>
+                                    <option>One-way</option>
+                                    <option>Round-trip</option>
+                                    <option>Multi-city</option>
+                                </select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Number of Travelers</label><input
+                                    type="number" name="travelers_count" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" min="1" value="1" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Origin</label><input type="text"
+                                    name="origin" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    placeholder="Manila" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Destination</label><input type="text"
+                                    name="destination" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    value="Ilocos Sur" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Departure Date</label><input
+                                    type="date" name="departure_date" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Return Date</label><input type="date"
+                                    name="return_date" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Class</label><select
+                                    name="flight_class" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required>
+                                    <option value="">Select Class</option>
+                                    <option>Economy</option>
+                                    <option>Business</option>
+                                    <option>First</option>
+                                </select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Seat Preference</label><select
+                                    name="seat_preference" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required>
+                                    <option value="">Select Preference</option>
+                                    <option>Not Available (N/A)</option>
+                                    <option>Window</option>
+                                    <option>Aisle</option>
+                                    <option>Middle</option>
+                                </select></div>
                         </div>
                     </div>
 
@@ -1036,28 +354,89 @@
                     <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
                         <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">3. Accommodation Details</h3>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div><label style="font-size: 12px; font-weight: 600;">Hotel Name/Preference</label><select name="hotel_name" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Hotel</option><option>Not Available (N/A)</option><option>Hotel Luna</option><option>Paradores de Vigan</option><option>Hotel Veneto</option><option>Other</option></select></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Room Type</label><select name="room_type" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Room Type</option><option>Not Available (N/A)</option><option>Standard</option><option>Deluxe</option><option>Suite</option></select></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Check-in Date</label><input type="date" name="check_in" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Check-out Date</label><input type="date" name="check_out" class="input-field" style="margin-bottom:0; padding: 10px;" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Number of Guests</label><input type="number" name="hotel_guests" class="input-field" style="margin-bottom:0; padding: 10px;" min="1" value="1" required></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Meal Preference</label><select name="meal_preference" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Meal</option><option>Not Available (N/A)</option><option>Standard</option><option>Vegetarian</option><option>Vegan</option><option>Halal</option></select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Hotel Name/Preference</label><select
+                                    name="hotel_name" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required>
+                                    <option value="">Select Hotel</option>
+                                    <option>Not Available (N/A)</option>
+                                    <option>Hotel Luna</option>
+                                    <option>Paradores de Vigan</option>
+                                    <option>Hotel Veneto</option>
+                                    <option>Other</option>
+                                </select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Room Type</label><select
+                                    name="room_type" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required>
+                                    <option value="">Select Room Type</option>
+                                    <option>Not Available (N/A)</option>
+                                    <option>Standard</option>
+                                    <option>Deluxe</option>
+                                    <option>Suite</option>
+                                </select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Check-in Date</label><input
+                                    type="date" name="check_in" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Check-out Date</label><input
+                                    type="date" name="check_out" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Number of Guests</label><input
+                                    type="number" name="hotel_guests" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" min="1" value="1" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Meal Preference</label><select
+                                    name="meal_preference" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required>
+                                    <option value="">Select Meal</option>
+                                    <option>Not Available (N/A)</option>
+                                    <option>Standard</option>
+                                    <option>Vegetarian</option>
+                                    <option>Vegan</option>
+                                    <option>Halal</option>
+                                </select></div>
                         </div>
-                        <div style="margin-top: 16px;"><label style="font-size: 12px; font-weight: 600;">Special Assistance/Requests</label><select name="special_requests" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Assistance</option><option>Not Available (N/A)</option><option>Wheelchair Access</option><option>Hearing Impaired Support</option><option>Visually Impaired Support</option></select></div>
+                        <div style="margin-top: 16px;"><label style="font-size: 12px; font-weight: 600;">Special
+                                Assistance/Requests</label><select name="special_requests" class="input-field"
+                                style="margin-bottom:0; padding: 10px;" required>
+                                <option value="">Select Assistance</option>
+                                <option>Not Available (N/A)</option>
+                                <option>Wheelchair Access</option>
+                                <option>Hearing Impaired Support</option>
+                                <option>Visually Impaired Support</option>
+                            </select></div>
                     </div>
 
                     <!-- Payment -->
                     <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5E7EB;">
                         <h3 style="font-size: 16px; margin-bottom: 16px; color: #1E88E5;">4. Payment & Protection</h3>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                            <div><label style="font-size: 12px; font-weight: 600;">Travel Insurance</label><select name="travel_insurance" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-                            <div><label style="font-size: 12px; font-weight: 600;">Payment Method</label><select name="payment_method" class="input-field" style="margin-bottom:0; padding: 10px;" required><option value="">Select Method</option><option>Credit Card</option><option>Debit Card</option><option>GCash</option></select></div>
-                            <div style="grid-column: span 2;"><label style="font-size: 12px; font-weight: 600;">Card Number / Account</label><input type="text" name="card_number" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="xxxx-xxxx-xxxx-xxxx" required></div>
-                            <div style="grid-column: span 2;"><label style="font-size: 12px; font-weight: 600;">Billing Address</label><input type="text" name="billing_address" class="input-field" style="margin-bottom:0; padding: 10px;" placeholder="123 Mabini St., Vigan City" required></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Travel Insurance</label><select
+                                    name="travel_insurance" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required>
+                                    <option value="">Select</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select></div>
+                            <div><label style="font-size: 12px; font-weight: 600;">Payment Method</label><select
+                                    name="payment_method" class="input-field" style="margin-bottom:0; padding: 10px;"
+                                    required>
+                                    <option value="">Select Method</option>
+                                    <option>Credit Card</option>
+                                    <option>Debit Card</option>
+                                    <option>GCash</option>
+                                </select></div>
+                            <div style="grid-column: span 2;"><label style="font-size: 12px; font-weight: 600;">Card
+                                    Number / Account</label><input type="text" name="card_number" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" placeholder="xxxx-xxxx-xxxx-xxxx" required>
+                            </div>
+                            <div style="grid-column: span 2;"><label style="font-size: 12px; font-weight: 600;">Billing
+                                    Address</label><input type="text" name="billing_address" class="input-field"
+                                    style="margin-bottom:0; padding: 10px;" placeholder="123 Mabini St., Vigan City"
+                                    required></div>
                         </div>
                         <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" name="terms_accepted" id="terms" required style="width: 16px; height: 16px;">
-                            <label for="terms" style="font-size: 13px; color: #4B5563;">I accept the Terms & Conditions and confirm my booking details.</label>
+                            <input type="checkbox" name="terms_accepted" id="terms" required
+                                style="width: 16px; height: 16px;">
+                            <label for="terms" style="font-size: 13px; color: #4B5563;">I accept the Terms & Conditions
+                                and confirm my booking details.</label>
                         </div>
                     </div>
                 </form>
@@ -1069,34 +448,46 @@
         <div class="modal-footer">
             <div class="footer-left">
                 <button class="btn-back" id="btn-prev" style="visibility: hidden;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Back
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6" />
+                    </svg> Back
                 </button>
             </div>
-            
+
             <div class="step-indicator" id="step-indicator">Step 1 of 5</div>
-            
+
             <div id="footer-actions">
                 <button class="btn-action" id="btn-next">
-                    Next Step <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    Next Step <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
                 </button>
             </div>
         </div>
     </div>
 
     <!-- Booking Success Modal -->
-    <div id="success-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 999999; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s;">
-        <div style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; box-shadow: 0 0 40px rgba(255, 143, 0, 0.4), 0 10px 30px rgba(0,0,0,0.3);">
+    <div id="success-modal"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 999999; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s;">
+        <div
+            style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; box-shadow: 0 0 40px rgba(255, 143, 0, 0.4), 0 10px 30px rgba(0,0,0,0.3);">
             <div style="font-size: 60px; margin-bottom: 20px;">🎒</div>
-            <h2 style="font-family: 'Playfair Display', serif; color: #1A2332; margin-bottom: 12px;">Thank you for booking a trip!</h2>
-            <p style="color: #6B7280; font-size: 15px; margin-bottom: 30px;">Your personalized itinerary has been saved. See you there!</p>
-            <button class="btn-action" style="width: 100%; justify-content: center; box-shadow: 0 0 15px rgba(255, 143, 0, 0.6), 0 4px 6px rgba(255, 143, 0, 0.3);" onclick="window.location.href='index.html'">Return to Home</button>
+            <h2 style="font-family: 'Playfair Display', serif; color: #1A2332; margin-bottom: 12px;">Thank you for
+                booking a trip!</h2>
+            <p style="color: #6B7280; font-size: 15px; margin-bottom: 30px;">Your personalized itinerary has been saved.
+                See you there!</p>
+            <button class="btn-action"
+                style="width: 100%; justify-content: center; box-shadow: 0 0 15px rgba(255, 143, 0, 0.6), 0 4px 6px rgba(255, 143, 0, 0.3);"
+                onclick="window.location.href='index.html'">Return to Home</button>
         </div>
     </div>
 
     <script>
         // Supabase Configuration
-        const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
-        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const SUPABASE_URL = 'https://kkejtlourxnmewtchhmx.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_EKmCZA5NVchSKEIulxrUig_PUoJ1Okv';
 
         // State
         const formData = {
@@ -1142,13 +533,13 @@
             document.querySelectorAll('.step-content').forEach((el, index) => {
                 el.classList.toggle('active', index + 1 === currentStep);
             });
-            
+
             // Progress Header
             document.querySelectorAll('.progress-step').forEach((el, index) => {
                 const stepNum = index + 1;
                 el.classList.toggle('active', stepNum === currentStep);
                 el.classList.toggle('completed', stepNum < currentStep);
-                
+
                 // Update checkmarks for completed
                 const circle = el.querySelector('.step-circle');
                 if (stepNum < currentStep) {
@@ -1164,9 +555,9 @@
 
             // Footer
             document.getElementById('btn-prev').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
-            
+
             const actionsContainer = document.getElementById('footer-actions');
-            
+
             if (currentStep === 4) {
                 // Generate Itinerary button
                 document.getElementById('step-indicator').textContent = `Step 4 of 6`;
@@ -1227,7 +618,7 @@
             grid.addEventListener('click', (e) => {
                 const card = e.target.closest('.option-card') || e.target.closest('.duration-card');
                 if (!card) return;
-                
+
                 Array.from(grid.children).forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 formData[dataKey] = card.dataset.value;
@@ -1258,7 +649,7 @@
         // Group Size
         const valEl = document.getElementById('group-size-val');
         document.getElementById('btn-minus').addEventListener('click', () => {
-            if(formData.groupSize > 1) {
+            if (formData.groupSize > 1) {
                 formData.groupSize--;
                 valEl.textContent = formData.groupSize;
             }
@@ -1279,24 +670,18 @@
 
         // Generate Itinerary Logic
         async function generateItinerary() {
-            // Save to Supabase (simulated)
-            /*
-            await fetch(`${SUPABASE_URL}/rest/v1/trip_planners`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` },
-                body: JSON.stringify(formData)
-            });
-            */
-           
-            // Move to step 5
+            // We removed the intermediate Supabase save since all planner data 
+            // is submitted together with the final booking in Step 6.
+
+            // 4. Move to step 5 (Only runs if Supabase save is successful)
             currentStep = 5;
             updateUI();
 
-            // Populate Step 5 data
+            // 5. Populate Step 5 data
             const typeLabel = formData.travelerType || "Explorer";
             const dur = formData.duration || 3;
             const bud = formData.budget || "Standard";
-            
+
             document.getElementById('it-pills').innerHTML = `
                 <div class="itinerary-pill">👤 ${typeLabel}</div>
                 <div class="itinerary-pill">📅 ${dur} Days</div>
@@ -1304,10 +689,10 @@
             `;
             document.getElementById('it-title').textContent = `Your ${dur}-Day Ilocos Sur Itinerary`;
 
-            // Setup day selectors
+            // 6. Setup day selectors
             let daysHtml = '';
-            for(let i=1; i<=dur; i++) {
-                daysHtml += `<div class="day-pill ${i===1?'active':''}">${i===1 ? 'Day 1' : 'Day ' + i}</div>`;
+            for (let i = 1; i <= dur; i++) {
+                daysHtml += `<div class="day-pill ${i === 1 ? 'active' : ''}">${i === 1 ? 'Day 1' : 'Day ' + i}</div>`;
             }
             document.getElementById('day-selector').innerHTML = daysHtml;
         }
@@ -1331,8 +716,6 @@
                 payload.planner_destinations = formData.destinations;
 
                 // 3. Send POST Request to Supabase REST API
-                // REPLACE SUPABASE_URL AND SUPABASE_KEY to activate!
-                /*
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
                     method: 'POST',
                     headers: {
@@ -1344,10 +727,20 @@
                     body: JSON.stringify(payload)
                 });
 
+                // Improved error handling to reveal the exact Supabase rejection reason
                 if (!response.ok) {
-                    throw new Error('Failed to insert into Supabase');
+                    // Attempt to parse the exact error message from Supabase
+                    let errorMessage = response.statusText;
+                    try {
+                        const errorDetails = await response.json();
+                        console.error("Supabase Error Details:", errorDetails);
+                        errorMessage = errorDetails.message || errorDetails.hint || response.statusText;
+                    } catch (parseError) {
+                        console.error("Could not parse Supabase error response");
+                    }
+
+                    throw new Error(`Failed to save booking: ${errorMessage}`);
                 }
-                */
 
                 // 4. Simulate network request for demonstration
                 await new Promise(resolve => setTimeout(resolve, 800));
@@ -1357,7 +750,8 @@
                 successModal.style.display = 'flex';
                 setTimeout(() => successModal.style.opacity = '1', 10);
             } catch (error) {
-                alert('An error occurred while saving your booking. Please check your Supabase credentials.');
+                console.error("Booking error:", error);
+                alert('Booking failed: ' + error.message);
             } finally {
                 submitBtn.innerHTML = 'Confirm Booking & Pay ✨';
             }
@@ -1367,4 +761,5 @@
         updateUI();
     </script>
 </body>
+
 </html>
